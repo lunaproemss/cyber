@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="tg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HACKER SCHOOL TJ — Амнияти Интернет</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&family=Exo+2:wght@300;400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #050a0e;
+    --bg2: #0a1520;
+    --green: #00ff88;
+    --green2: #00cc66;
+    --cyan: #00d4ff;
+    --red: #ff3355;
+    --yellow: #ffcc00;
+    --text: #c8d8e8;
+    --text2: #6a8a9a;
+    --border: #1a3a4a;
+    --glow: 0 0 20px rgba(0,255,136,0.3);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Exo 2', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Matrix rain background */
+  #matrix-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    opacity: 0.07;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .noise {
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  .container {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 520px;
+    padding: 20px;
+    animation: fadeIn 0.8s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity:0; transform: translateY(20px); }
+    to { opacity:1; transform: translateY(0); }
+  }
+
+  .logo-area {
+    text-align: center;
+    margin-bottom: 36px;
+  }
+
+  .logo-icon {
+    font-size: 52px;
+    display: block;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 0 16px var(--green));
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%,100% { filter: drop-shadow(0 0 16px var(--green)); }
+    50% { filter: drop-shadow(0 0 32px var(--green)); }
+  }
+
+  .logo-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--green);
+    letter-spacing: 4px;
+    text-shadow: var(--glow);
+    display: block;
+  }
+
+  .logo-sub {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: var(--text2);
+    letter-spacing: 2px;
+    margin-top: 4px;
+  }
+
+  .terminal-box {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 40px rgba(0,255,136,0.08), inset 0 1px 0 rgba(255,255,255,0.03);
+  }
+
+  .terminal-bar {
+    background: #0d1e2a;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .dot { width:12px; height:12px; border-radius:50%; }
+  .dot-red { background: #ff5f57; }
+  .dot-yellow { background: #febc2e; }
+  .dot-green { background: #28c840; }
+
+  .terminal-title {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: var(--text2);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .terminal-body {
+    padding: 28px 32px 32px;
+  }
+
+  .prompt-line {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    color: var(--text2);
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+
+  .prompt-line .g { color: var(--green); }
+  .prompt-line .c { color: var(--cyan); }
+  .prompt-line .blink {
+    display: inline-block;
+    width: 8px;
+    height: 14px;
+    background: var(--green);
+    vertical-align: middle;
+    animation: blink 1s step-end infinite;
+    margin-left: 2px;
+  }
+
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  .lang-switch {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .lang-btn {
+    flex: 1;
+    padding: 8px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text2);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 1px;
+  }
+
+  .lang-btn.active {
+    border-color: var(--green);
+    color: var(--green);
+    background: rgba(0,255,136,0.05);
+  }
+
+  .field-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--green);
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .code-input {
+    width: 100%;
+    background: rgba(0,255,136,0.03);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 18px;
+    color: var(--green);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 18px;
+    letter-spacing: 6px;
+    text-align: center;
+    outline: none;
+    transition: all 0.3s;
+    text-transform: uppercase;
+  }
+
+  .code-input:focus {
+    border-color: var(--green);
+    box-shadow: var(--glow);
+    background: rgba(0,255,136,0.06);
+  }
+
+  .code-input::placeholder {
+    color: var(--text2);
+    letter-spacing: 3px;
+    font-size: 14px;
+  }
+
+  .enter-btn {
+    width: 100%;
+    margin-top: 16px;
+    padding: 16px;
+    background: var(--green);
+    color: #050a0e;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .enter-btn:hover {
+    background: var(--green2);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 30px rgba(0,255,136,0.35);
+  }
+
+  .enter-btn:active { transform: translateY(0); }
+
+  .enter-btn::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: -60%;
+    width: 40%; height: 100%;
+    background: rgba(255,255,255,0.2);
+    transform: skewX(-20deg) translateY(-50%);
+    transition: left 0.4s;
+  }
+  .enter-btn:hover::after { left: 130%; }
+
+  .demo-link {
+    display: block;
+    text-align: center;
+    margin-top: 16px;
+    color: var(--cyan);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: opacity 0.2s;
+    text-decoration: none;
+  }
+  .demo-link:hover { opacity: 0.7; }
+
+  .error-msg {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: var(--red);
+    margin-top: 12px;
+    text-align: center;
+    display: none;
+  }
+
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .stat-box {
+    background: rgba(0,212,255,0.04);
+    border: 1px solid rgba(0,212,255,0.15);
+    border-radius: 8px;
+    padding: 12px;
+    text-align: center;
+  }
+
+  .stat-num {
+    display: block;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--cyan);
+  }
+
+  .stat-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    color: var(--text2);
+    letter-spacing: 1px;
+    margin-top: 2px;
+    display: block;
+  }
+
+  .footer-text {
+    text-align: center;
+    margin-top: 20px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--text2);
+    letter-spacing: 1px;
+    line-height: 1.8;
+  }
+
+  .footer-text a {
+    color: var(--green);
+    text-decoration: none;
+  }
+
+  /* Scan line */
+  .scanline {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 3px;
+    background: linear-gradient(transparent, rgba(0,255,136,0.1), transparent);
+    animation: scan 4s linear infinite;
+    pointer-events: none;
+    z-index: 5;
+  }
+  @keyframes scan {
+    0% { top: -3px; }
+    100% { top: 100vh; }
+  }
+
+  /* Shake animation */
+  @keyframes shake {
+    0%,100%{transform:translateX(0)}
+    20%{transform:translateX(-8px)}
+    40%{transform:translateX(8px)}
+    60%{transform:translateX(-6px)}
+    80%{transform:translateX(6px)}
+  }
+  .shake { animation: shake 0.4s ease; }
+</style>
+</head>
+<body>
+<canvas id="matrix-canvas"></canvas>
+<div class="noise"></div>
+<div class="scanline"></div>
+
+<div class="container">
+  <div class="logo-area">
+    <span class="logo-icon">🛡️</span>
+    <span class="logo-title">HACKER SCHOOL TJ</span>
+    <div class="logo-sub">// АМНИЯТИ ИНТЕРНЕТ — АЗ СИФР ТО ПЕНТЕСТ //</div>
+  </div>
+
+  <div class="terminal-box">
+    <div class="terminal-bar">
+      <div class="dot dot-red"></div>
+      <div class="dot dot-yellow"></div>
+      <div class="dot dot-green"></div>
+      <span class="terminal-title">access_portal.sh</span>
+    </div>
+    <div class="terminal-body">
+      <div class="prompt-line">
+        <span class="g">root@hackerschool</span>:<span class="c">~</span>$ ./enter_course.sh<br>
+        <span id="prompt-text">Рамзи дастрасии худро ворид кунед...<span class="blink"></span></span>
+      </div>
+
+      <div class="lang-switch">
+        <button class="lang-btn active" onclick="setLang('tg')" id="btn-tg">ТОҶИКӢ</button>
+        <button class="lang-btn" onclick="setLang('ru')" id="btn-ru">РУССКИЙ</button>
+      </div>
+
+      <label class="field-label" id="lbl-code">// РАМЗИ ДАСТРАСӢ</label>
+      <input type="text" class="code-input" id="access-code"
+        placeholder="XXXX-XXXX"
+        maxlength="9"
+        oninput="formatCode(this)"
+        onkeydown="if(event.key==='Enter') checkCode()">
+      <div class="error-msg" id="error-msg">❌ Рамз нодуруст аст. Дубора кӯшиш кунед.</div>
+      <button class="enter-btn" onclick="checkCode()" id="enter-btn">ДОХИЛ ШУДАН →</button>
+      <a class="demo-link" onclick="enterDemo()" id="demo-link">▶ ДАРСИ 1 — БЕПУЛ (ДЕМО)</a>
+
+      <div class="stats-row">
+        <div class="stat-box">
+          <span class="stat-num">20</span>
+          <span class="stat-label" id="s1">ДАРС</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">4</span>
+          <span class="stat-label" id="s2">ҲАФТА</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num" id="slots-left">7</span>
+          <span class="stat-label" id="s3">ҶОЙ МОНД</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-text">
+    <span id="footer1">Дастгирӣ тавассути Telegram: </span><a href="https://t.me/lunaproemss" target="_blank">@lunaproemss</a><br>
+    <span id="footer2">© 2025 HACKER SCHOOL TJ — Ҳамаи ҳуқуқҳо ҳифз шудаанд</span>
+  </div>
+</div>
+
+<script>
+// ===================== MATRIX RAIN =====================
+const canvas = document.getElementById('matrix-canvas');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+const cols = Math.floor(canvas.width / 20);
+const drops = Array(cols).fill(1);
+const chars = 'アイウエオカキクケコ0123456789ABCDEF<>{}[]|/\\01';
+
+function drawMatrix() {
+  ctx.fillStyle = 'rgba(5,10,14,0.05)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = '#00ff88';
+  ctx.font = '14px Share Tech Mono, monospace';
+  drops.forEach((y, i) => {
+    const char = chars[Math.floor(Math.random() * chars.length)];
+    ctx.fillText(char, i * 20, y * 20);
+    if (y * 20 > canvas.height && Math.random() > 0.975) drops[i] = 0;
+    drops[i]++;
+  });
+}
+setInterval(drawMatrix, 60);
+window.addEventListener('resize', () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+
+// ===================== ACCESS CODES =====================
+// В реальном проекте вынеси на backend / Telegram bot
+const VALID_CODES = {
+  'HACK-2025': true,
+  'TEST-CODE': true,
+  'DEMO-FREE': 'demo',
+};
+
+// ===================== LANGUAGE =====================
+const texts = {
+  tg: {
+    prompt: 'Рамзи дастрасии худро ворид кунед...',
+    label: '// РАМЗИ ДАСТРАСӢ',
+    enterBtn: 'ДОХИЛ ШУДАН →',
+    demo: '▶ ДАРСИ 1 — БЕПУЛ (ДЕМО)',
+    error: '❌ Рамз нодуруст аст. Дубора кӯшиш кунед.',
+    s1: 'ДАРС', s2: 'ҲАФТА', s3: 'ҶОЙ МОНД',
+    footer1: 'Дастгирӣ тавассути Telegram: ',
+    footer2: '© 2025 HACKER SCHOOL TJ — Ҳамаи ҳуқуқҳо ҳифз шудаанд',
+  },
+  ru: {
+    prompt: 'Введите код доступа к курсу...',
+    label: '// КОД ДОСТУПА',
+    enterBtn: 'ВОЙТИ В КУРС →',
+    demo: '▶ УРОК 1 — БЕСПЛАТНО (ДЕМО)',
+    error: '❌ Неверный код. Попробуйте ещё раз.',
+    s1: 'УРОКОВ', s2: 'НЕДЕЛИ', s3: 'МЕСТ ОСТАЛОСЬ',
+    footer1: 'Поддержка в Telegram: ',
+    footer2: '© 2025 HACKER SCHOOL TJ — Все права защищены',
+  }
+};
+
+let lang = 'tg';
+function setLang(l) {
+  lang = l;
+  document.getElementById('btn-tg').classList.toggle('active', l === 'tg');
+  document.getElementById('btn-ru').classList.toggle('active', l === 'ru');
+  const t = texts[l];
+  document.getElementById('prompt-text').innerHTML = t.prompt + '<span class="blink"></span>';
+  document.getElementById('lbl-code').textContent = t.label;
+  document.getElementById('enter-btn').textContent = t.enterBtn;
+  document.getElementById('demo-link').textContent = t.demo;
+  document.getElementById('error-msg').textContent = t.error;
+  document.getElementById('s1').textContent = t.s1;
+  document.getElementById('s2').textContent = t.s2;
+  document.getElementById('s3').textContent = t.s3;
+  document.getElementById('footer1').textContent = t.footer1;
+  document.getElementById('footer2').textContent = t.footer2;
+  document.querySelector('html').lang = l === 'tg' ? 'tg' : 'ru';
+}
+
+function formatCode(input) {
+  let val = input.value.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+  if (val.length > 4) val = val.slice(0,4) + '-' + val.slice(4,8);
+  input.value = val;
+}
+
+function checkCode() {
+  const code = document.getElementById('access-code').value.trim().toUpperCase();
+  const err = document.getElementById('error-msg');
+  const box = document.querySelector('.terminal-box');
+
+  if (VALID_CODES[code]) {
+    err.style.display = 'none';
+    document.getElementById('enter-btn').textContent = '✓ ЗАГРУЗКА...';
+    document.getElementById('enter-btn').style.background = '#00cc66';
+    setTimeout(() => {
+      if (VALID_CODES[code] === 'demo') {
+        window.location.href = 'lessons.html?lesson=1&demo=1';
+      } else {
+        localStorage.setItem('hs_access', 'granted');
+        localStorage.setItem('hs_code', code);
+        window.location.href = 'lessons.html';
+      }
+    }, 900);
+  } else {
+    err.style.display = 'block';
+    box.classList.remove('shake');
+    void box.offsetWidth;
+    box.classList.add('shake');
+    document.getElementById('access-code').value = '';
+    document.getElementById('access-code').focus();
+  }
+}
+
+function enterDemo() {
+  localStorage.setItem('hs_demo', '1');
+  window.location.href = 'lessons.html?lesson=1&demo=1';
+}
+
+// Slots counter (dynamic from localStorage to simulate scarcity)
+const BASE_SLOTS = 10;
+const sold = parseInt(localStorage.getItem('hs_sold') || '3');
+document.getElementById('slots-left').textContent = Math.max(0, BASE_SLOTS - sold);
+</script>
+</body>
+</html>
