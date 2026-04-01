@@ -1983,6 +1983,91 @@ function toggleSidebar() {
 //  BOOT
 // =============================================
 window.addEventListener('DOMContentLoaded', init);
+  // =============================================
+//  HACKER SCHOOL TJ — Telegram уведомления
+//  Вставь этот код в index.html перед </body>
+// =============================================
+
+const TG_BOT_TOKEN = "8667568994:AAFut4EmqMmDAbB_N14j7jWfHVNQz0lAFRk";        // ← СЮДА ТОКЕН БОТА от @BotFather
+const TG_CHAT_ID   = "6337391749";        // ← СЮДА ТВОЙ TELEGRAM ID (узнай у @userinfobot)
+
+// Отправка уведомления в Telegram
+async function sendTgNotify(text) {
+  if (!TG_BOT_TOKEN || !TG_CHAT_ID) return;
+  try {
+    await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chat_id: TG_CHAT_ID,
+        text: text,
+        parse_mode: "HTML"
+      })
+    });
+  } catch (e) {
+    console.log("TG notify error:", e);
+  }
+}
+
+// Вызывается когда код введён верно — замени свою функцию checkCode() на эту
+async function checkCode() {
+  const code = document.getElementById("access-code").value.trim().toUpperCase();
+  const err  = document.getElementById("error-msg");
+  const btn  = document.getElementById("enter-btn");
+
+  if (VALID_CODES[code]) {
+    err.style.display = "none";
+    btn.textContent = "✓ ЗАГРУЗКА...";
+    btn.style.background = "#00cc66";
+
+    // ← Уведомление тебе в Telegram
+    const now  = new Date().toLocaleString("ru-RU", { timeZone: "Asia/Dushanbe" });
+    const msg  =
+      `🛡️ <b>CYBER SCHOOL TJ</b>\n` +
+      `✅ Новый ученик зашёл на курс!\n\n` +
+      `🔑 Код: <code>${code}</code>\n` +
+      `🕐 Время: ${now}\n` +
+      `🌐 IP: скрыт (браузер)\n` +
+      `📱 Устройство: ${navigator.userAgent.includes("Mobile") ? "📱 Мобильный" : "💻 Компьютер"}`;
+
+    await sendTgNotify(msg);
+
+    setTimeout(() => {
+      if (VALID_CODES[code] === "demo") {
+        window.location.href = "lessons.html?lesson=1&demo=1";
+      } else {
+        localStorage.setItem("hs_access", "granted");
+        localStorage.setItem("hs_code", code);
+        window.location.href = "lessons.html";
+      }
+    }, 900);
+
+  } else {
+    err.style.display = "block";
+    document.querySelector(".terminal-box").classList.remove("shake");
+    void document.querySelector(".terminal-box").offsetWidth;
+    document.querySelector(".terminal-box").classList.add("shake");
+    document.getElementById("access-code").value = "";
+    document.getElementById("access-code").focus();
+
+    // (необязательно) уведомление о неверном коде
+    // const now = new Date().toLocaleString("ru-RU", { timeZone: "Asia/Dushanbe" });
+    // await sendTgNotify(`⚠️ Неверный код: <code>${code}</code> — ${now}`);
+  }
+}
+
+// Вызывается когда нажимают "Демо урок 1"
+async function enterDemo() {
+  const now = new Date().toLocaleString("ru-RU", { timeZone: "Asia/Dushanbe" });
+  await sendTgNotify(
+    `🛡️ <b>CYBER SCHOOL TJ</b>\n` +
+    `👀 Кто-то открыл ДЕМО-урок\n\n` +
+    `🕐 Время: ${now}\n` +
+    `📱 Устройство: ${navigator.userAgent.includes("Mobile") ? "📱 Мобильный" : "💻 Компьютер"}`
+  );
+  localStorage.setItem("hs_demo", "1");
+  window.location.href = "lessons.html?lesson=1&demo=1";
+}
 </script>
 </body>
 </html>
