@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CYBER SCHOOL TJ — Первый курс по кибербезопасности на таджикском</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=Exo+2:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:     #030810;
+  --bg2:    #070f1a;
+  --bg3:    #0a1825;
+  --green:  #00ff88;
+  --green2: #00cc66;
+  --cyan:   #00d4ff;
+  --yellow: #ffd700;
+  --red:    #ff2244;
+  --text:   #c8dce8;
+  --text2:  #4a6a7a;
+  --border: #0f2535;
+  --border2:#1a3a50;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Exo 2',sans-serif;overflow-x:hidden;}
+
+/* CANVAS */
+#bgc{position:fixed;inset:0;z-index:0;opacity:.055;pointer-events:none;}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  padding:14px 40px;display:flex;align-items:center;justify-content:space-between;
+  background:rgba(3,8,16,.88);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:3px;color:var(--green);text-shadow:0 0 18px rgba(0,255,136,.4);}
+.nav-logo span{color:var(--cyan);}
+.nav-cta{
+  padding:9px 22px;background:var(--green);color:#030810;
+  font-family:'Exo 2',sans-serif;font-weight:700;font-size:13px;letter-spacing:1px;
+  border:none;border-radius:6px;cursor:pointer;transition:all .2s;
+}
+.nav-cta:hover{background:var(--green2);transform:translateY(-1px);box-shadow:0 6px 24px rgba(0,255,136,.3);}
+.nav-links{display:flex;gap:28px;}
+.nav-links a{font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--text2);text-decoration:none;letter-spacing:1px;transition:color .2s;}
+.nav-links a:hover{color:var(--green);}
+
+/* HERO */
+.hero{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  text-align:center;padding:100px 20px 60px;position:relative;z-index:1;
+}
+.hero-inner{max-width:860px;}
+
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(0,255,136,.07);border:1px solid rgba(0,255,136,.2);
+  border-radius:20px;padding:6px 16px;
+  font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--green);
+  letter-spacing:2px;margin-bottom:28px;
+  animation:fadeUp .7s ease both;
+}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 1.5s ease-in-out infinite;}
+
+.hero-tag{
+  font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--cyan);
+  letter-spacing:3px;margin-bottom:16px;
+  animation:fadeUp .7s .1s ease both;
+}
+
+.hero-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(52px,10vw,110px);
+  line-height:.95;letter-spacing:2px;color:#fff;
+  margin-bottom:12px;
+  animation:fadeUp .7s .2s ease both;
+}
+.hero-title .g{color:var(--green);text-shadow:0 0 40px rgba(0,255,136,.4);}
+.hero-title .c{color:var(--cyan);}
+
+.hero-sub{
+  font-size:clamp(16px,2.5vw,22px);color:var(--text2);line-height:1.6;
+  max-width:600px;margin:0 auto 40px;
+  animation:fadeUp .7s .3s ease both;
+}
+.hero-sub strong{color:var(--text);}
+
+.hero-btns{
+  display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+  animation:fadeUp .7s .4s ease both;
+}
+.btn-primary{
+  padding:16px 36px;background:var(--green);color:#030810;
+  font-family:'Exo 2',sans-serif;font-weight:900;font-size:16px;letter-spacing:2px;
+  border:none;border-radius:8px;cursor:pointer;transition:all .25s;
+  position:relative;overflow:hidden;
+}
+.btn-primary:hover{background:var(--green2);transform:translateY(-2px);box-shadow:0 10px 36px rgba(0,255,136,.35);}
+.btn-primary::after{
+  content:'';position:absolute;top:50%;left:-60%;width:40%;height:100%;
+  background:rgba(255,255,255,.2);transform:skewX(-20deg) translateY(-50%);transition:left .4s;
+}
+.btn-primary:hover::after{left:130%;}
+
+.btn-secondary{
+  padding:16px 36px;background:transparent;color:var(--cyan);
+  font-family:'Exo 2',sans-serif;font-weight:700;font-size:16px;letter-spacing:2px;
+  border:1px solid var(--cyan);border-radius:8px;cursor:pointer;transition:all .25s;
+}
+.btn-secondary:hover{background:rgba(0,212,255,.07);transform:translateY(-2px);}
+
+.hero-stats{
+  display:flex;gap:40px;justify-content:center;flex-wrap:wrap;
+  margin-top:56px;padding-top:40px;border-top:1px solid var(--border);
+  animation:fadeUp .7s .5s ease both;
+}
+.hstat{text-align:center;}
+.hstat-num{
+  font-family:'Bebas Neue',sans-serif;font-size:42px;
+  color:var(--green);text-shadow:0 0 20px rgba(0,255,136,.3);
+  display:block;line-height:1;
+}
+.hstat-label{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text2);letter-spacing:2px;margin-top:4px;}
+
+/* SCANLINE */
+.scanline{
+  position:fixed;top:0;left:0;width:100%;height:2px;
+  background:linear-gradient(transparent,rgba(0,255,136,.12),transparent);
+  animation:scan 5s linear infinite;pointer-events:none;z-index:300;
+}
+@keyframes scan{0%{top:-2px}100%{top:100vh}}
+
+/* SECTIONS */
+section{position:relative;z-index:1;padding:90px 40px;}
+.section-inner{max-width:1100px;margin:0 auto;}
+
+.sec-label{
+  font-family:'Share Tech Mono',monospace;font-size:10px;
+  color:var(--cyan);letter-spacing:3px;
+  display:flex;align-items:center;gap:12px;margin-bottom:16px;
+}
+.sec-label::after{content:'';flex:1;height:1px;background:var(--border2);}
+.sec-label::before{content:'//';color:var(--green);}
+
+.sec-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(36px,6vw,62px);
+  color:#fff;line-height:1;margin-bottom:12px;
+}
+.sec-title .acc{color:var(--green);}
+
+.sec-desc{font-size:16px;color:var(--text2);line-height:1.7;max-width:580px;margin-bottom:48px;}
+
+/* PAIN → GAIN */
+.pain-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+@media(max-width:700px){.pain-grid{grid-template-columns:1fr;}}
+
+.pain-card{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:12px;padding:24px;
+}
+.pain-card.bad{border-color:rgba(255,34,68,.2);}
+.pain-card.good{border-color:rgba(0,255,136,.2);}
+
+.pain-card-title{
+  font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;
+  margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border);
+}
+.pain-card.bad .pain-card-title{color:var(--red);}
+.pain-card.good .pain-card-title{color:var(--green);}
+
+.pain-item{
+  display:flex;align-items:flex-start;gap:10px;
+  font-size:14px;color:var(--text2);line-height:1.5;padding:8px 0;
+  border-bottom:1px solid var(--border);
+}
+.pain-item:last-child{border:none;}
+.pain-icon{font-size:16px;margin-top:1px;min-width:20px;}
+
+/* CURRICULUM */
+.weeks-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
+@media(max-width:700px){.weeks-grid{grid-template-columns:1fr;}}
+
+.week-card{
+  background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;
+  transition:border-color .2s,transform .2s;
+}
+.week-card:hover{border-color:var(--cyan);transform:translateY(-3px);}
+
+.week-head{
+  padding:16px 20px;
+  background:linear-gradient(135deg,rgba(0,212,255,.07),rgba(0,255,136,.04));
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:12px;
+}
+.week-num{
+  font-family:'Bebas Neue',sans-serif;font-size:32px;color:var(--cyan);
+  line-height:1;min-width:36px;
+}
+.week-info h3{
+  font-family:'Exo 2',sans-serif;font-weight:700;font-size:15px;color:#fff;
+}
+.week-info span{
+  font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text2);letter-spacing:1px;
+}
+.week-lessons{padding:12px 20px;}
+.week-lesson{
+  display:flex;align-items:center;gap:10px;
+  padding:7px 0;border-bottom:1px solid var(--border);
+  font-size:13px;color:var(--text2);
+}
+.week-lesson:last-child{border:none;}
+.week-lesson-num{
+  font-family:'Share Tech Mono',monospace;font-size:10px;
+  color:var(--green);min-width:28px;
+}
+
+/* TERMINAL DEMO */
+.terminal-demo-wrap{
+  background:var(--bg2);border:1px solid var(--border2);
+  border-radius:14px;overflow:hidden;
+  box-shadow:0 0 60px rgba(0,255,136,.06);
+}
+.term-topbar{
+  background:#050e18;padding:12px 18px;
+  display:flex;align-items:center;gap:10px;
+  border-bottom:1px solid var(--border);
+}
+.tdot{width:12px;height:12px;border-radius:50%;}
+.td-r{background:#ff5f57;} .td-y{background:#febc2e;} .td-g{background:#28c840;}
+.tbar-title{
+  font-family:'Share Tech Mono',monospace;font-size:12px;
+  color:var(--text2);margin:0 auto;letter-spacing:1px;
+}
+.term-tabs{
+  background:#040c16;border-bottom:1px solid var(--border);
+  display:flex;gap:4px;padding:8px 16px 0;
+}
+.term-tab{
+  padding:6px 16px;font-family:'Share Tech Mono',monospace;font-size:11px;
+  color:var(--text2);cursor:pointer;border-radius:6px 6px 0 0;
+  border:1px solid transparent;border-bottom:none;transition:all .2s;
+  background:transparent;
+}
+.term-tab.active{
+  background:var(--bg2);border-color:var(--border2);color:var(--green);
+}
+.term-body{background:#020c14;}
+.term-out{
+  padding:18px;min-height:200px;max-height:300px;overflow-y:auto;
+  font-family:'Share Tech Mono',monospace;font-size:13px;line-height:1.8;
+  color:#b0e8c0;
+}
+.term-out::-webkit-scrollbar{width:3px;}
+.term-out::-webkit-scrollbar-thumb{background:var(--border2);}
+.tl{display:block;}
+.tl.g{color:var(--green);}  .tl.c{color:var(--cyan);}
+.tl.y{color:var(--yellow);} .tl.r{color:var(--red);}
+.tl.d{color:var(--text2);}
+.term-in-row{
+  display:flex;align-items:center;gap:8px;
+  padding:10px 18px;border-top:1px solid var(--border);
+}
+.term-prompt{color:var(--green);font-family:'Share Tech Mono',monospace;font-size:13px;white-space:nowrap;}
+.term-input{
+  flex:1;background:transparent;border:none;outline:none;
+  color:#b0e8c0;font-family:'Share Tech Mono',monospace;font-size:13px;
+  caret-color:var(--green);
+}
+.term-hints-row{
+  padding:10px 18px;border-top:1px solid var(--border);
+  display:flex;flex-wrap:wrap;gap:6px;align-items:center;
+}
+.th-label{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text2);}
+.th-chip{
+  padding:3px 10px;background:rgba(0,212,255,.06);
+  border:1px solid rgba(0,212,255,.18);border-radius:4px;
+  font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--cyan);
+  cursor:pointer;transition:all .15s;
+}
+.th-chip:hover{background:rgba(0,212,255,.14);}
+
+/* PRICING */
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+@media(max-width:900px){.pricing-grid{grid-template-columns:1fr;max-width:400px;margin:0 auto;}}
+
+.price-card{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:14px;padding:28px;position:relative;
+  transition:transform .2s;
+}
+.price-card:hover{transform:translateY(-4px);}
+.price-card.featured{
+  border-color:var(--green);
+  box-shadow:0 0 40px rgba(0,255,136,.1);
+}
+.price-badge{
+  position:absolute;top:-12px;left:50%;transform:translateX(-50%);
+  background:var(--green);color:#030810;
+  font-family:'Exo 2',sans-serif;font-weight:900;font-size:11px;
+  padding:4px 14px;border-radius:20px;letter-spacing:1px;white-space:nowrap;
+}
+.price-name{
+  font-family:'Share Tech Mono',monospace;font-size:11px;
+  color:var(--text2);letter-spacing:2px;margin-bottom:12px;
+}
+.price-amt{
+  font-family:'Bebas Neue',sans-serif;font-size:52px;
+  color:#fff;line-height:1;margin-bottom:4px;
+}
+.price-amt span{font-size:20px;color:var(--text2);}
+.price-card.featured .price-amt{color:var(--green);}
+.price-old{
+  font-family:'Share Tech Mono',monospace;font-size:12px;
+  color:var(--text2);text-decoration:line-through;margin-bottom:20px;
+}
+.price-features{list-style:none;margin-bottom:24px;}
+.price-features li{
+  display:flex;align-items:flex-start;gap:8px;
+  padding:8px 0;border-bottom:1px solid var(--border);
+  font-size:13px;color:var(--text2);line-height:1.4;
+}
+.price-features li:last-child{border:none;}
+.price-features li .chk{color:var(--green);font-size:12px;margin-top:1px;}
+.price-features li .x{color:var(--red);font-size:12px;margin-top:1px;}
+.price-btn{
+  width:100%;padding:13px;border:none;border-radius:8px;
+  font-family:'Exo 2',sans-serif;font-weight:700;font-size:14px;
+  letter-spacing:1px;cursor:pointer;transition:all .2s;
+}
+.price-btn.main{background:var(--green);color:#030810;}
+.price-btn.main:hover{background:var(--green2);box-shadow:0 6px 24px rgba(0,255,136,.3);}
+.price-btn.outline{background:transparent;color:var(--text2);border:1px solid var(--border2);}
+.price-btn.outline:hover{border-color:var(--green);color:var(--green);}
+
+/* SLOTS COUNTER */
+.slots-bar{
+  background:rgba(255,215,0,.06);border:1px solid rgba(255,215,0,.2);
+  border-radius:10px;padding:16px 24px;
+  display:flex;align-items:center;gap:16px;
+  margin-bottom:32px;
+}
+.slots-icon{font-size:20px;}
+.slots-text{font-size:14px;color:var(--yellow);}
+.slots-text strong{font-weight:700;}
+.slots-progress{
+  flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden;
+}
+.slots-fill{
+  height:100%;background:linear-gradient(90deg,var(--yellow),var(--red));
+  border-radius:3px;transition:width .5s ease;
+}
+
+/* COMPARE TABLE */
+.compare-table{width:100%;border-collapse:collapse;}
+.compare-table th,.compare-table td{
+  padding:14px 16px;text-align:left;
+  border-bottom:1px solid var(--border);font-size:13px;
+}
+.compare-table th{
+  font-family:'Share Tech Mono',monospace;font-size:10px;
+  color:var(--text2);letter-spacing:2px;background:var(--bg2);
+}
+.compare-table th.ours{color:var(--green);}
+.compare-table td.ours{color:var(--green);font-weight:600;}
+.compare-table tr:hover td{background:rgba(255,255,255,.01);}
+.compare-table td:first-child{color:var(--text2);}
+
+/* TESTIMONIALS */
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+@media(max-width:800px){.testi-grid{grid-template-columns:1fr;}}
+
+.testi-card{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:12px;padding:22px;
+}
+.testi-quote{
+  font-size:14px;color:var(--text);line-height:1.7;
+  margin-bottom:16px;font-style:italic;
+}
+.testi-quote::before{content:'"';color:var(--green);font-size:20px;font-style:normal;}
+.testi-author{
+  display:flex;align-items:center;gap:10px;
+}
+.testi-avatar{
+  width:38px;height:38px;border-radius:50%;
+  background:linear-gradient(135deg,var(--green),var(--cyan));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Bebas Neue',sans-serif;font-size:16px;color:#030810;
+}
+.testi-name{font-weight:700;font-size:13px;color:#fff;}
+.testi-role{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text2);}
+.stars{color:var(--yellow);font-size:12px;margin-bottom:10px;}
+
+/* FAQ */
+.faq-list{max-width:700px;}
+.faq-item{
+  border-bottom:1px solid var(--border);overflow:hidden;
+}
+.faq-q{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 0;cursor:pointer;font-size:15px;color:var(--text);
+  font-weight:600;gap:16px;
+  transition:color .2s;
+}
+.faq-q:hover{color:var(--green);}
+.faq-icon{
+  font-family:'Share Tech Mono',monospace;font-size:18px;
+  color:var(--green);min-width:20px;text-align:center;
+  transition:transform .3s;
+}
+.faq-a{
+  font-size:14px;color:var(--text2);line-height:1.7;
+  max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s;
+}
+.faq-item.open .faq-a{max-height:200px;padding-bottom:16px;}
+.faq-item.open .faq-icon{transform:rotate(45deg);}
+
+/* CTA SECTION */
+.cta-section{
+  text-align:center;padding:100px 40px;
+  background:linear-gradient(135deg,rgba(0,255,136,.04),rgba(0,212,255,.02));
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+}
+.cta-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(40px,7vw,80px);color:#fff;
+  line-height:.95;margin-bottom:20px;
+}
+.cta-title .g{color:var(--green);}
+.cta-desc{font-size:16px;color:var(--text2);max-width:500px;margin:0 auto 36px;line-height:1.7;}
+.cta-guarantee{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'Share Tech Mono',monospace;font-size:11px;
+  color:var(--text2);margin-top:20px;
+}
+
+/* FOOTER */
+footer{
+  padding:36px 40px;border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:16px;position:relative;z-index:1;
+}
+.foot-logo{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--green);letter-spacing:2px;}
+.foot-links{display:flex;gap:24px;}
+.foot-links a{
+  font-family:'Share Tech Mono',monospace;font-size:11px;
+  color:var(--text2);text-decoration:none;transition:color .2s;
+}
+.foot-links a:hover{color:var(--green);}
+.foot-copy{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text2);}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+/* MOBILE */
+@media(max-width:768px){
+  nav{padding:12px 20px;}
+  .nav-links{display:none;}
+  section{padding:70px 20px;}
+  .hero{padding:90px 20px 50px;}
+  footer{padding:24px 20px;flex-direction:column;text-align:center;}
+}
+</style>
+</head>
+<body>
+
+<canvas id="bgc"></canvas>
+<div class="scanline"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">CYBER <span>SCHOOL</span> TJ</div>
+  <div class="nav-links">
+    <a href="#program">Программа</a>
+    <a href="#demo">Демо</a>
+    <a href="#pricing">Цена</a>
+    <a href="#faq">FAQ</a>
+  </div>
+  <button class="nav-cta" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">КУПИТЬ КУРС →</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge"><span class="badge-dot"></span>АВВАЛИН КУРС ДАР ТОҶИКИСТОН // ПЕРВЫЙ КУРС В ТАДЖИКИСТАНЕ</div>
+    <div class="hero-tag">// КИБЕРБЕЗОПАСНОСТЬ ДЛЯ НАЧИНАЮЩИХ //</div>
+    <h1 class="hero-title">
+      CYBER<br><span class="g">SCHOOL</span> <span class="c">TJ</span>
+    </h1>
+    <p class="hero-sub">
+      Стань <strong>этичным хакером</strong> за 4 недели.<br>
+      Без установки Kali Linux. Без английского. Прямо в браузере.
+    </p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">НАЧАТЬ ОБУЧЕНИЕ — 230 СОМ</button>
+      <button class="btn-secondary" onclick="document.getElementById('demo').scrollIntoView({behavior:'smooth'})">▶ ПОПРОБОВАТЬ ДЕМО</button>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat"><span class="hstat-num">20</span><div class="hstat-label">УРОКОВ</div></div>
+      <div class="hstat"><span class="hstat-num">4</span><div class="hstat-label">НЕДЕЛИ</div></div>
+      <div class="hstat"><span class="hstat-num" id="slots-hero">7</span><div class="hstat-label">МЕСТ ОСТАЛОСЬ</div></div>
+      <div class="hstat"><span class="hstat-num">0</span><div class="hstat-label">УСТАНОВОК</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PAIN vs GAIN -->
+<section style="padding-top:0;" id="why">
+  <div class="section-inner reveal">
+    <div class="sec-label">ПРОБЛЕМА И РЕШЕНИЕ</div>
+    <h2 class="sec-title">ПОЧЕМУ ДРУГИЕ <span class="acc">КУРСЫ НЕ ПОДХОДЯТ</span></h2>
+    <p class="sec-desc">Мы сделали курс именно для студентов и школьников Таджикистана — без барьеров.</p>
+    <div class="pain-grid">
+      <div class="pain-card bad">
+        <div class="pain-card-title">❌ ДРУГИЕ КУРСЫ</div>
+        <div class="pain-item"><span class="pain-icon">🌍</span>Только на английском языке</div>
+        <div class="pain-item"><span class="pain-icon">💸</span>От $14/мес — TryHackMe, HTB</div>
+        <div class="pain-item"><span class="pain-icon">⚙️</span>Надо устанавливать Kali Linux, VirtualBox</div>
+        <div class="pain-item"><span class="pain-icon">🗺️</span>Западные примеры — не из нашей жизни</div>
+        <div class="pain-item"><span class="pain-icon">😵</span>Сам разбирайся — нет живой поддержки</div>
+        <div class="pain-item"><span class="pain-icon">📅</span>Нет структуры — непонятно с чего начать</div>
+      </div>
+      <div class="pain-card good">
+        <div class="pain-card-title">✅ CYBER SCHOOL TJ</div>
+        <div class="pain-item"><span class="pain-icon">🇹🇯</span>На таджикском + русском, переключатель</div>
+        <div class="pain-item"><span class="pain-icon">💰</span>230 сомонӣ — один раз, навсегда</div>
+        <div class="pain-item"><span class="pain-icon">🌐</span>Только браузер — терминал прямо на сайте</div>
+        <div class="pain-item"><span class="pain-icon">📍</span>Примеры: Tajnet, Alif Bank, tajik.gov</div>
+        <div class="pain-item"><span class="pain-icon">💬</span>Личная поддержка в Telegram @lunaproemss</div>
+        <div class="pain-item"><span class="pain-icon">📋</span>Чёткие 4 недели — 5 уроков в неделю</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAM -->
+<section id="program" style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="section-inner reveal">
+    <div class="sec-label">ПРОГРАММА КУРСА</div>
+    <h2 class="sec-title">20 УРОКОВ — <span class="acc">4 НЕДЕЛИ</span></h2>
+    <p class="sec-desc">От нуля до первого пентест-отчёта. Каждый урок — теория + интерактивное задание.</p>
+    <div class="weeks-grid">
+      <div class="week-card">
+        <div class="week-head">
+          <div class="week-num">01</div>
+          <div class="week-info">
+            <h3>Как думает хакер</h3>
+            <span>УРОКИ 1–5 // НЕДЕЛЯ 1</span>
+          </div>
+        </div>
+        <div class="week-lessons">
+          <div class="week-lesson"><span class="week-lesson-num">01</span>Мир кибербезопасности (БЕСПЛАТНО)</div>
+          <div class="week-lesson"><span class="week-lesson-num">02</span>Терминал Linux — твой главный инструмент</div>
+          <div class="week-lesson"><span class="week-lesson-num">03</span>Сети за 1 урок — IP, TCP/IP, порты</div>
+          <div class="week-lesson"><span class="week-lesson-num">04</span>DNS и атака DNS Spoofing</div>
+          <div class="week-lesson"><span class="week-lesson-num">05</span>Nmap — сканирование сети</div>
+        </div>
+      </div>
+      <div class="week-card">
+        <div class="week-head">
+          <div class="week-num">02</div>
+          <div class="week-info">
+            <h3>Разведка и анализ</h3>
+            <span>УРОКИ 6–10 // НЕДЕЛЯ 2</span>
+          </div>
+        </div>
+        <div class="week-lessons">
+          <div class="week-lesson"><span class="week-lesson-num">06</span>OSINT — разведка по открытым источникам</div>
+          <div class="week-lesson"><span class="week-lesson-num">07</span>Wireshark — анализ трафика</div>
+          <div class="week-lesson"><span class="week-lesson-num">08</span>OWASP Top 10 — топ уязвимостей</div>
+          <div class="week-lesson"><span class="week-lesson-num">09</span>SQL Injection — практика</div>
+          <div class="week-lesson"><span class="week-lesson-num">10</span>XSS — Cross-Site Scripting</div>
+        </div>
+      </div>
+      <div class="week-card">
+        <div class="week-head">
+          <div class="week-num">03</div>
+          <div class="week-info">
+            <h3>Атака и защита</h3>
+            <span>УРОКИ 11–15 // НЕДЕЛЯ 3</span>
+          </div>
+        </div>
+        <div class="week-lessons">
+          <div class="week-lesson"><span class="week-lesson-num">11</span>Пароли и хеши — MD5, bcrypt</div>
+          <div class="week-lesson"><span class="week-lesson-num">12</span>Взлом хешей — словарные атаки</div>
+          <div class="week-lesson"><span class="week-lesson-num">13</span>Социальная инженерия — фишинг</div>
+          <div class="week-lesson"><span class="week-lesson-num">14</span>Metasploit — основы эксплойтов</div>
+          <div class="week-lesson"><span class="week-lesson-num">15</span>Файрвол — iptables/UFW</div>
+        </div>
+      </div>
+      <div class="week-card">
+        <div class="week-head">
+          <div class="week-num">04</div>
+          <div class="week-info">
+            <h3>Профессиональный пентест</h3>
+            <span>УРОКИ 16–20 // НЕДЕЛЯ 4</span>
+          </div>
+        </div>
+        <div class="week-lessons">
+          <div class="week-lesson"><span class="week-lesson-num">16</span>Методология пентеста</div>
+          <div class="week-lesson"><span class="week-lesson-num">17</span>Burp Suite — перехват HTTP</div>
+          <div class="week-lesson"><span class="week-lesson-num">18</span>CTF — Capture The Flag</div>
+          <div class="week-lesson"><span class="week-lesson-num">19</span>Написание отчёта пентеста</div>
+          <div class="week-lesson"><span class="week-lesson-num">20</span>Карьера — CEH, OSCP, Bug Bounty 🏆</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TERMINAL DEMO -->
+<section id="demo">
+  <div class="section-inner reveal">
+    <div class="sec-label">ИНТЕРАКТИВНОЕ ДЕМО</div>
+    <h2 class="sec-title">ПОПРОБУЙ <span class="acc">ПРЯМО СЕЙЧАС</span></h2>
+    <p class="sec-desc">Настоящий терминал в браузере. Никакой установки. Введи команду и почувствуй себя хакером.</p>
+
+    <div class="terminal-demo-wrap">
+      <div class="term-topbar">
+        <div class="tdot td-r"></div><div class="tdot td-y"></div><div class="tdot td-g"></div>
+        <span class="tbar-title">root@cyberschool-tj:~# — ДЕМО УРОК 2</span>
+      </div>
+      <div class="term-tabs">
+        <button class="term-tab active" onclick="switchTab('linux',this)">Linux Basics</button>
+        <button class="term-tab" onclick="switchTab('nmap',this)">Nmap Scan</button>
+        <button class="term-tab" onclick="switchTab('ctf',this)">CTF Challenge</button>
+      </div>
+      <div class="term-body">
+        <div class="term-out" id="term-out"></div>
+        <div class="term-in-row">
+          <span class="term-prompt" id="term-prompt">root@cyberschool:~# </span>
+          <input class="term-input" id="term-inp" autocomplete="off" spellcheck="false"
+            placeholder="введи команду..."
+            onkeydown="handleKey(event)">
+        </div>
+        <div class="term-hints-row">
+          <span class="th-label">Попробуй:</span>
+          <span id="hint-chips"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARE -->
+<section style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="section-inner reveal">
+    <div class="sec-label">СРАВНЕНИЕ</div>
+    <h2 class="sec-title">МЫ ПРОТИВ <span class="acc">КОНКУРЕНТОВ</span></h2>
+    <div style="overflow-x:auto;">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Параметр</th>
+            <th class="ours">✅ Cyber School TJ</th>
+            <th>TryHackMe</th>
+            <th>Hack The Box</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Язык</td><td class="ours">🇹🇯 Таджикский + Русский</td><td>Только английский</td><td>Только английский</td></tr>
+          <tr><td>Цена</td><td class="ours">230 сомонӣ (разово)</td><td>$14/мес</td><td>$14/мес</td></tr>
+          <tr><td>Установка ПО</td><td class="ours">Не нужна — браузер</td><td>VPN + VM нужен</td><td>Kali Linux нужен</td></tr>
+          <tr><td>Структура</td><td class="ours">4 недели, чёткий план</td><td>Сам разбирайся</td><td>Сам разбирайся</td></tr>
+          <tr><td>Поддержка</td><td class="ours">Личный Telegram</td><td>Форум</td><td>Discord</td></tr>
+          <tr><td>Сертификат</td><td class="ours">Да — PDF + Telegram</td><td>Да (платно)</td><td>Нет</td></tr>
+          <tr><td>Локальные примеры</td><td class="ours">Tajnet, Alif, .tj домены</td><td>Западные кейсы</td><td>Западные кейсы</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="section-inner reveal">
+    <div class="sec-label">СТОИМОСТЬ</div>
+    <h2 class="sec-title">ВЫБЕРИ <span class="acc">СВОЙ ПЛАН</span></h2>
+
+    <div class="slots-bar">
+      <span class="slots-icon">🔥</span>
+      <span class="slots-text"><strong>Осталось <span id="slots-count">7</span> из 10 мест</strong> — набор закрывается при заполнении</span>
+      <div class="slots-progress"><div class="slots-fill" id="slots-fill" style="width:30%"></div></div>
+    </div>
+
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-name">// ДЕМО</div>
+        <div class="price-amt">0 <span>сом</span></div>
+        <div class="price-old">&nbsp;</div>
+        <ul class="price-features">
+          <li><span class="chk">✓</span>Урок 1 полностью</li>
+          <li><span class="chk">✓</span>Демо-терминал</li>
+          <li><span class="chk">✓</span>Квиз по кибербезу</li>
+          <li><span class="x">✗</span>Уроки 2–20</li>
+          <li><span class="x">✗</span>Поддержка в Telegram</li>
+          <li><span class="x">✗</span>Сертификат</li>
+        </ul>
+        <button class="price-btn outline" onclick="window.location.href='lessons.html?lesson=1&demo=1'">ПОПРОБОВАТЬ →</button>
+      </div>
+
+      <div class="price-card featured">
+        <div class="price-badge">🔥 ПОПУЛЯРНЫЙ</div>
+        <div class="price-name">// ПОЛНЫЙ КУРС</div>
+        <div class="price-amt">230 <span>сом</span></div>
+        <div class="price-old">Аналоги: от 1400 сом/мес</div>
+        <ul class="price-features">
+          <li><span class="chk">✓</span>Все 20 уроков</li>
+          <li><span class="chk">✓</span>Интерактивный терминал</li>
+          <li><span class="chk">✓</span>SQLi и XSS симуляторы</li>
+          <li><span class="chk">✓</span>3 практических проекта</li>
+          <li><span class="chk">✓</span>Поддержка в Telegram</li>
+          <li><span class="chk">✓</span>Сертификат PDF</li>
+        </ul>
+        <button class="price-btn main" onclick="buyNow()">КУПИТЬ ЗА 230 СОМ →</button>
+      </div>
+
+      <div class="price-card">
+        <div class="price-name">// БОНУС-ПАКЕТ</div>
+        <div class="price-amt">300 <span>сом</span></div>
+        <div class="price-old">&nbsp;</div>
+        <ul class="price-features">
+          <li><span class="chk">✓</span>Всё из полного курса</li>
+          <li><span class="chk">✓</span>Чит-лист: 100 команд Linux</li>
+          <li><span class="chk">✓</span>Python-скрипт сканера</li>
+          <li><span class="chk">✓</span>Шаблон резюме пентестера</li>
+          <li><span class="chk">✓</span>Разбор кода 1 на 1</li>
+          <li><span class="chk">✓</span>Приоритетная поддержка</li>
+        </ul>
+        <button class="price-btn outline" onclick="buyBonus()">ВЗЯТЬ ПАКЕТ →</button>
+      </div>
+    </div>
+
+    <!-- BUY MODAL -->
+    <div id="buy-modal" style="display:none;margin-top:32px;background:var(--bg2);border:1px solid var(--green);border-radius:14px;padding:28px;max-width:480px;">
+      <div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--green);letter-spacing:2px;margin-bottom:16px;">// КАК КУПИТЬ</div>
+      <div style="font-size:15px;color:var(--text);line-height:1.8;margin-bottom:20px;">
+        1️⃣ Переведи <strong style="color:var(--green)">230 сомонӣ</strong> на карту:<br>
+        <span style="font-family:'Share Tech Mono',monospace;font-size:14px;color:var(--cyan);">XXXX XXXX XXXX XXXX</span><br><br>
+        2️⃣ Напиши в Telegram скриншот оплаты:<br>
+        <a href="https://t.me/lunaproemss" target="_blank" style="color:var(--green);font-family:'Share Tech Mono',monospace;">@lunaproemss</a><br><br>
+        3️⃣ Получи <strong style="color:var(--yellow)">уникальный код доступа</strong> и заходи!
+      </div>
+      <button onclick="window.open('https://t.me/lunaproemss','_blank')" style="padding:13px 28px;background:var(--green);border:none;border-radius:8px;color:#030810;font-family:'Exo 2',sans-serif;font-weight:900;font-size:15px;cursor:pointer;letter-spacing:1px;">НАПИСАТЬ В TELEGRAM →</button>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="section-inner reveal">
+    <div class="sec-label">ОТЗЫВЫ</div>
+    <h2 class="sec-title">ЧТО <span class="acc">ГОВОРЯТ СТУДЕНТЫ</span></h2>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <div class="testi-quote">Терминал прямо в браузере — это было для меня магией. Я понял как работает nmap за один урок!</div>
+        <div class="testi-author">
+          <div class="testi-avatar">А</div>
+          <div><div class="testi-name">Алишер М.</div><div class="testi-role">Студент ТГТУ, 2 курс</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <div class="testi-quote">Наконец-то курс на таджикском! SQL Injection объяснён так понятно, что я сразу всё понял.</div>
+        <div class="testi-author">
+          <div class="testi-avatar">Р</div>
+          <div><div class="testi-name">Рустам Т.</div><div class="testi-role">Системный администратор</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <div class="testi-quote">230 сомонӣ за такой курс — это подарок. TryHackMe стоит в 6 раз дороже и на английском.</div>
+        <div class="testi-author">
+          <div class="testi-avatar">Д</div>
+          <div><div class="testi-name">Давлат К.</div><div class="testi-role">Школьник, 11 класс</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="section-inner reveal">
+    <div class="sec-label">ВОПРОСЫ</div>
+    <h2 class="sec-title">ЧАСТО <span class="acc">ЗАДАЮТ</span></h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Нужно ли устанавливать что-то на компьютер? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Нет. Всё работает в браузере — Chrome, Firefox, Safari. Терминал, симуляторы атак, квизы — всё встроено в сайт.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">На каком языке курс? <span class="faq-icon">+</span></div>
+        <div class="faq-a">На таджикском и русском — есть переключатель прямо в интерфейсе. Переключай в любой момент.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Я полный новичок — мне подойдёт? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Да! Единственное требование — уметь пользоваться компьютером и браузером. Опыт в программировании не нужен.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Как получить код доступа? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Переводишь 230 сомонӣ на карту, пишешь скриншот в Telegram @lunaproemss — получаешь уникальный код в течение часа.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Сколько времени нужно в день? <span class="faq-icon">+</span></div>
+        <div class="faq-a">30–45 минут в день. 5 уроков в неделю = 4 недели до финала. Но доступ бессрочный — учись в своём темпе.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Это законно — учиться взламывать? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Да. Этичный хакинг (white hat) — легальная профессия. Все практики проводятся в учебной лабораторной среде, без реальных систем.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="sec-label" style="justify-content:center;max-width:400px;margin:0 auto 20px;">ПОСЛЕДНИЙ ШАГ</div>
+  <h2 class="cta-title">СТАНЬ <span class="g">ХАКЕРОМ</span><br>СЕГОДНЯ</h2>
+  <p class="cta-desc">Осталось <strong id="slots-cta">7</strong> мест. После заполнения набор закрывается до следующего потока.</p>
+  <button class="btn-primary" style="font-size:18px;padding:18px 48px;" onclick="buyNow()">КУПИТЬ КУРС — 230 СОМ →</button>
+  <div class="cta-guarantee">🛡️ ПОДДЕРЖКА В TELEGRAM · БЕССРОЧНЫЙ ДОСТУП · СЕРТИФИКАТ</div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-logo">CYBER SCHOOL TJ</div>
+  <div class="foot-links">
+    <a href="lessons.html?lesson=1&demo=1">Демо-урок</a>
+    <a href="https://t.me/lunaproemss" target="_blank">Telegram</a>
+    <a href="index.html">Войти</a>
+  </div>
+  <div class="foot-copy">© 2025 CYBER SCHOOL TJ · @lunaproemss</div>
+</footer>
+
+<script>
+// ── MATRIX BG ──
+const canvas = document.getElementById('bgc');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+const cols = Math.floor(canvas.width / 22);
+const drops = Array(cols).fill(1);
+const chars = 'アイウエオ0123456789ABCDEF{}[]<>/\\|';
+function drawMatrix(){
+  ctx.fillStyle='rgba(3,8,16,.06)';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle='#00ff88';
+  ctx.font='14px Share Tech Mono,monospace';
+  drops.forEach((y,i)=>{
+    ctx.fillText(chars[Math.floor(Math.random()*chars.length)],i*22,y*22);
+    if(y*22>canvas.height&&Math.random()>.975) drops[i]=0;
+    drops[i]++;
+  });
+}
+setInterval(drawMatrix,65);
+window.addEventListener('resize',()=>{canvas.width=window.innerWidth;canvas.height=window.innerHeight;});
+
+// ── SLOTS ──
+const SOLD = parseInt(localStorage.getItem('cs_sold')||'3');
+const LEFT = Math.max(0,10-SOLD);
+document.getElementById('slots-hero').textContent = LEFT;
+document.getElementById('slots-count').textContent = LEFT;
+document.getElementById('slots-cta').textContent = LEFT;
+document.getElementById('slots-fill').style.width = ((10-LEFT)/10*100)+'%';
+
+// ── BUY ──
+function buyNow(){
+  const m = document.getElementById('buy-modal');
+  m.style.display = m.style.display==='none' ? 'block' : 'none';
+  if(m.style.display==='block') m.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function buyBonus(){
+  window.open('https://t.me/lunaproemss','_blank');
+}
+
+// ── FAQ ──
+function toggleFaq(el){
+  el.parentElement.classList.toggle('open');
+}
+
+// ── REVEAL ──
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// ── TERMINAL ──
+const TABS = {
+  linux: {
+    prompt: 'root@cyberschool:~# ',
+    hints: ['whoami','ls','pwd','cat secret.txt','uname -a'],
+    commands: {
+      'whoami':       ['root'],
+      'ls':           ['Documents/','secret.txt','nmap_scan.log','passwords.bak'],
+      'pwd':          ['/root'],
+      'clear':        ['__clear__'],
+      'uname -a':     ['Linux cyberschool 5.15.0 #101-Ubuntu SMP x86_64 GNU/Linux'],
+      'cat secret.txt':['🎉 FLAG{welcome_to_cyber_school_tj}','Табрик! Шумо файли пинҳониро ёфтед!'],
+      'cat passwords.bak':['⚠️ admin:admin123','⚠️ root:toor','Ин паролҳои заиф мебошанд!'],
+      'help':         ['Дастурҳо: whoami, ls, pwd, cat, uname -a, clear'],
+    }
+  },
+  nmap: {
+    prompt: 'root@cyberschool:~# ',
+    hints: ['nmap 10.0.0.1','nmap -sV 10.0.0.1','nmap -p 80,443 10.0.0.1'],
+    commands: {
+      'nmap 10.0.0.1':      ['Starting Nmap 7.94','Nmap scan report for target.lab (10.0.0.1)','Host is up (0.0012s latency).','','PORT     STATE SERVICE','22/tcp   open  ssh','80/tcp   open  http','443/tcp  open  https','3306/tcp open  mysql','','Nmap done: 1 IP address scanned in 2.31s'],
+      'nmap -sv 10.0.0.1':  ['PORT     STATE SERVICE    VERSION','22/tcp   open  ssh        OpenSSH 8.2p1','80/tcp   open  http       Apache 2.4.41','3306/tcp open  mysql      MySQL 5.7.32'],
+      'nmap -sV 10.0.0.1':  ['PORT     STATE SERVICE    VERSION','22/tcp   open  ssh        OpenSSH 8.2p1','80/tcp   open  http       Apache 2.4.41','3306/tcp open  mysql      MySQL 5.7.32'],
+      'nmap -p 80,443 10.0.0.1':['PORT    STATE SERVICE','80/tcp  open  http','443/tcp open  https'],
+      'help':               ['Санҷед: nmap 10.0.0.1, nmap -sV 10.0.0.1, nmap -p 80,443 10.0.0.1'],
+      'clear':              ['__clear__'],
+    }
+  },
+  ctf: {
+    prompt: 'ctf@challenge:~$ ',
+    hints: ['ls','cat robots.txt','ls secret_dir','cat secret_dir/flag.txt'],
+    commands: {
+      'ls':                       ['bin/','etc/','home/','secret_dir/','robots.txt'],
+      'cat robots.txt':           ['User-agent: *','Disallow: /secret_dir/','# Ҳа-ҳа, ин ҷо чизи ҷолиб ҳаст 😈'],
+      'ls secret_dir':            ['flag.txt','config.bak'],
+      'cat secret_dir/flag.txt':  ['🏆 FLAG{ctf_master_tajikistan_2025}','Табрик! Шумо CTF-ро ҳал кардед!'],
+      'cat secret_dir/config.bak':['DB_HOST=localhost','DB_USER=admin','DB_PASS=SuperSecret123!'],
+      'whoami':                   ['www-data'],
+      'clear':                    ['__clear__'],
+      'help':                     ['Санҷед: ls, cat robots.txt, ls secret_dir, cat secret_dir/flag.txt'],
+    }
+  }
+};
+
+let curTab = 'linux';
+let termHist = [], termHistIdx = -1;
+
+function switchTab(tab, el){
+  curTab = tab;
+  document.querySelectorAll('.term-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('term-prompt').textContent = TABS[tab].prompt;
+  const out = document.getElementById('term-out');
+  out.innerHTML = '';
+  addLine(`// Вкладка: ${tab} — введи команду или нажми подсказку`, 'c');
+  renderHints(tab);
+  document.getElementById('term-inp').focus();
+}
+
+function renderHints(tab){
+  const wrap = document.getElementById('hint-chips');
+  wrap.innerHTML = TABS[tab].hints.map(h=>
+    `<span class="th-chip" onclick="fillTerm('${h}')">${h}</span>`
+  ).join('');
+}
+
+function fillTerm(cmd){
+  const inp = document.getElementById('term-inp');
+  inp.value = cmd; inp.focus();
+}
+
+function addLine(text, cls=''){
+  const out = document.getElementById('term-out');
+  const span = document.createElement('span');
+  span.className = 'tl' + (cls ? ' '+cls : '');
+  span.textContent = text;
+  out.appendChild(span);
+  out.scrollTop = out.scrollHeight;
+}
+
+function handleKey(e){
+  const inp = document.getElementById('term-inp');
+  if(e.key==='Enter'){
+    e.preventDefault();
+    const cmd = inp.value.trim();
+    if(!cmd) return;
+    termHist.unshift(cmd); termHistIdx=-1;
+    inp.value='';
+    runCmd(cmd);
+  } else if(e.key==='ArrowUp'){
+    e.preventDefault();
+    if(termHistIdx < termHist.length-1){ termHistIdx++; inp.value=termHist[termHistIdx]; }
+  } else if(e.key==='ArrowDown'){
+    e.preventDefault();
+    if(termHistIdx>0){ termHistIdx--; inp.value=termHist[termHistIdx]; }
+    else { termHistIdx=-1; inp.value=''; }
+  }
+}
+
+function runCmd(cmd){
+  addLine(TABS[curTab].prompt + cmd, 'g');
+  const resp = TABS[curTab].commands[cmd] || TABS[curTab].commands[cmd.toLowerCase()];
+  if(resp){
+    if(resp[0]==='__clear__'){ document.getElementById('term-out').innerHTML=''; return; }
+    resp.forEach(line=>{
+      let cls='';
+      if(line.includes('FLAG{')||line.includes('Табрик')||line.startsWith('[+]')) cls='g';
+      else if(line.startsWith('⚠️')||line.startsWith('[!]')) cls='y';
+      else if(line.startsWith('[*]')) cls='c';
+      else if(line.startsWith('bash:')) cls='r';
+      addLine(line, cls);
+    });
+  } else {
+    addLine(`bash: ${cmd}: command not found`, 'r');
+  }
+}
+
+// Init terminal
+(function(){
+  addLine('// Добро пожаловать в CYBER SCHOOL TJ!', 'c');
+  addLine('// Это интерактивный терминал — попробуй команды ниже', 'd');
+  addLine('', '');
+  renderHints('linux');
+  document.getElementById('term-prompt').textContent = TABS.linux.prompt;
+})();
+</script>
+</body>
+</html>
